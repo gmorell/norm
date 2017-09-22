@@ -4,16 +4,14 @@
 from zope.interface import implements
 from txpostgres import txpostgres
 import psycopg2.extras
+from zope.interface.declarations import implementer
 
 from norm.interface import IAsyncCursor
 from norm.postgres import translateSQL
 
 
-
+@implementer(IAsyncCursor)
 class TxPostgresCursor(txpostgres.Cursor):
-
-
-    implements(IAsyncCursor)
 
 
     def execute(self, sql, params=()):

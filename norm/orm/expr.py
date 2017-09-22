@@ -246,7 +246,7 @@ def compile_Table(table, state):
     return '%s AS %s' % (info.table, state.tableAlias(table.cls)), ()
 
 
-@compiler.when(str, unicode, int, bool, date, datetime)
+@compiler.when(str, bytes, int, bool, date, datetime)
 def compile_str(x, state):
     return ('?', (x,))
 
@@ -267,7 +267,7 @@ class Comparison(object):
 
 
     def __eq__(self, other):
-        print 'Comparison.__eq__', other
+        print('Comparison.__eq__', other)
 
 
 class Eq(Comparison):

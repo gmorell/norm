@@ -2,6 +2,7 @@
 # See LICENSE for details.
 
 from zope.interface import implements
+from zope.interface.declarations import implementer
 
 from norm.interface import IAsyncCursor
 from norm.orm.base import (classInfo, objectInfo, Converter, BaseOperator)
@@ -14,11 +15,8 @@ def translateSQL(sql):
     return sql.replace('?', '%s')
 
 
-
+@implementer(IAsyncCursor)
 class PostgresCursorWrapper(object):
-
-
-    implements(IAsyncCursor)
 
 
     def __init__(self, cursor):

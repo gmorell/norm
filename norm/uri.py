@@ -6,9 +6,7 @@ URI parsing
 """
 
 
-from urlparse import urlparse, parse_qs
-
-
+from urllib.parse import urlparse, parse_qs
 
 def parseURI(uri):
     """

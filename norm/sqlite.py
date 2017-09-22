@@ -1,5 +1,6 @@
 # Copyright (c) Matt Haggard.
 # See LICENSE for details.
+from zope.interface.declarations import implementer
 
 __all__ = ['sqlite']
 
@@ -19,14 +20,11 @@ try:
 except:
     import sqlite3 as sqlite
 
-
+@implementer(IAsyncCursor)
 class SqliteCursorWrapper(object):
     """
     I wrap an IAsyncCursor but do SQLiteish things with it.
     """
-
-    implements(IAsyncCursor)
-
 
     def __init__(self, cursor):
         """
@@ -96,13 +94,11 @@ sqlite_compiler = Compiler([compiler])
 
 
 
-
+@implementer(IOperator)
 class SqliteOperator(BaseOperator):
     """
     I provide SQLite-specific methods for ORM-based database interactions.
     """
-
-    implements(IOperator)
 
     compiler = sqlite_compiler
     fromDB = fromDB

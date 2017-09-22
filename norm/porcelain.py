@@ -32,9 +32,9 @@ class PostgresRunner(BlockingRunner):
 
 
 
-def _makePostgres(parsed, connections=1):
+def _makePostgres(parsed, connections=1, connection_kwargs={}):
     try:
-        return _makeTxPostgres(parsed, connections)
+        return _makeTxPostgres(parsed, connections, connection_kwargs=connection_kwargs)
     except ImportError:
         return _makeBlockingPostgres(parsed, connections)
 
@@ -51,26 +51,28 @@ def _makeBlockingPostgres(parsed, connections=1):
     pool.db_scheme = 'postgres'
     pool.setConnect(connect)
 
-    for i in xrange(connections):
+    for i in range(connections):
         pool.add(connect())
     return defer.succeed(pool)
 
 
-def _makeTxPostgres(parsed, connections=1):
+def _makeTxPostgres(parsed, connections=1, connection_kwargs={}):
     from norm.tx_postgres import DictConnection
     connstr = mkConnStr(parsed)
 
     def connect():
-        conn = DictConnection()
+        conn = DictConnection(**connection_kwargs)
         d = conn.connect(connstr)
         return d.addCallback(lambda _: conn)
+    # custom connection factory if used
+
 
     pool = ConnectionPool()
     pool.db_scheme = 'postgres'
     pool.setConnect(connect)
 
     dlist = []
-    for i in xrange(connections):
+    for i in range(connections):
         d = connect()
         d.addCallback(pool.add)
         dlist.append(d)
@@ -79,12 +81,12 @@ def _makeTxPostgres(parsed, connections=1):
 
 
 
-def makePool(uri, connections=1):
+def makePool(uri, connections=1, connection_kwargs={}):
     parsed = parseURI(uri)
     if parsed['scheme'] == 'sqlite':
         return _makeSqlite(parsed)
     elif parsed['scheme'] == 'postgres':
-        return _makePostgres(parsed, connections)
+        return _makePostgres(parsed, connections, connection_kwargs=connection_kwargs)
     else:
         raise Exception('%s is not supported' % (parsed['scheme'],))
 

@@ -6,6 +6,7 @@ import inspect
 import weakref
 
 from zope.interface import implements
+from zope.interface.declarations import implementer
 
 from norm.orm.error import NotFound
 from norm.interface import IOperator
@@ -414,13 +415,11 @@ class Converter(object):
         return value
 
 
-
+@implementer(IOperator)
 class BaseOperator(object):
     """
     I provide asynchronous CRUD database access with objects.
     """
-
-    implements(IOperator)
 
     compiler = None
     fromDB = None

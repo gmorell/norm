@@ -2,6 +2,7 @@
 # See LICENSE for details.
 
 from zope.interface import implements
+from zope.interface.declarations import implementer
 from twisted.internet import defer
 
 from functools import partial
@@ -11,14 +12,11 @@ from collections import deque, defaultdict
 from norm.interface import IAsyncCursor, IRunner, IPool
 
 
-
+@implementer(IAsyncCursor)
 class BlockingCursor(object):
     """
     I wrap a single DB-API2 db cursor in an asynchronous api.
     """
-
-    implements(IAsyncCursor)
-
 
     def __init__(self, cursor):
         self.cursor = cursor
@@ -44,13 +42,11 @@ class BlockingCursor(object):
         return defer.maybeDeferred(self.cursor.close)
 
 
-
+@implementer(IRunner)
 class BlockingRunner(object):
     """
     I wrap a single DB-API2 db connection in an asynchronous api.
     """
-
-    implements(IRunner)
 
     cursorFactory = BlockingCursor
 
@@ -102,11 +98,9 @@ class BlockingRunner(object):
         return defer.maybeDeferred(self.conn.close)
 
 
-
+@implementer(IRunner)
 class ConnectionPool(object):
 
-
-    implements(IRunner)
 
     db_scheme = None
 
@@ -214,15 +208,11 @@ class ConnectionPool(object):
 
 
 
-
+@implementer(IPool)
 class NextAvailablePool(object):
     """
     I give you the next available object in the pool.
     """
-
-
-    implements(IPool)
-
 
     def __init__(self):
         self._options = deque()
