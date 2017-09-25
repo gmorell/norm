@@ -19,7 +19,7 @@ setup(
     url='https://github.com/iffy/norm',
     author='Matt Haggard',
     author_email='haggardii@gmail.com',
-    name='norm',
+    name='TXnorm',
     version=getVersion(),
     packages=[
         'norm', 'norm.test',
