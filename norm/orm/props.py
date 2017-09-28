@@ -52,7 +52,7 @@ class Unicode(Property):
             raise TypeError('%r must be a unicode, not %r' % (prop, value))
         return value
 
-
+# Postgres DataTypes
 class UUID(Property):
     def _validate(self, prop, obj, value):
         from uuid import UUID
@@ -63,6 +63,7 @@ class UUID(Property):
         except ValueError:
             raise TypeError('%r must be a uuid' % (prop))
         return value
+
 
 class JSON(Property):
     def _validate(self, prop, obj, value):
