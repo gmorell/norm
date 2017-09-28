@@ -58,6 +58,8 @@ class UUID(Property):
         from uuid import UUID
         if type(value) not in (type(None), unicode):
             raise TypeError('%r must be a unicode, not %r' % (prop, value))
+        if not value:
+            return value
         try:
             UUID(value, version=4)
         except ValueError:
@@ -68,10 +70,10 @@ class UUID(Property):
 class JSON(Property):
     def _validate(self, prop, obj, value):
         import json
-        if type(value) not in (type(None), unicode):
+        if type(value) not in (type(None), unicode, dict):
             raise TypeError('%r must be a unicode, not %r' % (prop, value))
         try:
-            json.loads(value)
+            json.dumps(value)
         except json.decoder.JSONDecodeError:
             raise TypeError('%r must be a valid json' % (prop))
         return value

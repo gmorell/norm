@@ -129,6 +129,8 @@ class Property(_Comparable):
         self.validators.append(self._validate)
         self.primary = primary
 
+    def __hash__(self):
+        return hash(repr(self))
 
     def __get__(self, obj, cls):
         if not self.attr_name:
@@ -296,7 +298,7 @@ class _ObjectInfo(object):
         cls_info = classInfo(self.obj)
         # XXX it's a little weird that you can get to this through any
         # attribute.
-        prop = cls_info.attributes.values()[0]
+        prop = next(iter(cls_info.attributes.values()))
         return prop.changes(self.obj)
 
 
