@@ -57,8 +57,8 @@ toDB = Converter()
 def stringToDB(pythonval):
     if pythonval is None:
         return None
-    return buffer(pythonval.encode()).tobytes()
-    return pythonval
+    # return buffer(pythonval.encode()).tobytes()
+    return pythonval.encode('utf-8')
 
 
 fromDB = Converter()
