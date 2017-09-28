@@ -92,7 +92,7 @@ class State(object):
 
     def __init__(self):
         pool = _aliases()
-        self._aliases = defaultdict(lambda:pool.next())
+        self._aliases = defaultdict(lambda:next(pool))
         self.classes = []
 
 
