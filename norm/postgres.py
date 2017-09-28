@@ -1,6 +1,6 @@
 # Copyright (c) Matt Haggard.
 # See LICENSE for details.
-
+from twisted.python.compat import unicode
 from zope.interface import implements
 from zope.interface.declarations import implementer
 
@@ -9,6 +9,8 @@ from norm.orm.base import (classInfo, objectInfo, Converter, BaseOperator)
 from norm.orm.props import String, Unicode
 from norm.orm.expr import compiler, Compiler
 
+##http://python3porting.com/differences.html#buffer
+buffer = memoryview
 
 def translateSQL(sql):
     # this is naive
