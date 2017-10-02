@@ -68,7 +68,7 @@ class _WeakIdentityDict(MutableMapping):
         return id(key) in self.data
 
     def __iter__(self):
-        for item in self.data.itervalues():
+        for item in self.data.values():
             obj = item[0]()
             if obj is not None:
                 yield obj
